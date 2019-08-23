@@ -5,10 +5,11 @@ import io.ConsoleIO;
 public class TicTacToe {
 	private static ConsoleIO io;
 //	public static final int DIMENSION = io.getInstance().inputInteger("Input Dimension");
-	public static final int DIMENSION = 3;
-	public static Cell[] field = new Cell[DIMENSION * DIMENSION];
-	private static String USER_1 = "X";
-	private static String USER_2 = "O";
+	private static final int DIMENSION = 3;
+	private static Cell[] field = new Cell[DIMENSION * DIMENSION];
+	private static final String USER_1 = "X";
+	private static final String USER_2 = "O";
+	private static User[] users = new User[2];
 
 	public static void main(String[] args) {
 		playTwoPlayersMode();
@@ -31,52 +32,67 @@ public class TicTacToe {
 				}
 				io.getInstance().showMessage("\n");
 			}
-
 		}
 	}
 
-	public static boolean isBusy(String coordinate) {
+	public static boolean isCoordinateValid(int coordinate) {
+		boolean valid = true;
+		if (coordinate < 1 || coordinate > Math.pow(DIMENSION, 2)) {
+			valid = false;
+		}
+		return valid;
+	}
+
+	public static boolean isBusy(int coordinate) {
 		boolean busy = false;
-			if (!field[Integer.parseInt(coordinate)-1].getArrCell()[1].equals(" ")) {
- 				busy = true;
-			}
+		if (!field[coordinate - 1].getArrCell()[1].equals(" ")) {
+			busy = true;
+		}
 		return busy;
 	}
 
-	public static void selectCoordinate(String user, int userNumber) {
-		int coordinate = io.getInstance().inputInteger("User " + userNumber + ", Input coordinate");
-		if (!isBusy(String.valueOf(coordinate))) {
+	public static void selectCoordinate(String user, String userName) {
+		int coordinate = io.getInstance().inputInteger(
+				"User " + userName + ", input number which is correspoding to the value in the field cell");
+		if (!isCoordinateValid(coordinate)) {
+			io.getInstance().showMessage("Incorrect input. Try to select coordinate again.\n");
+			selectCoordinate(user, userName);
+		}
+		if (!isBusy(coordinate)) {
 			field[coordinate - 1].setArrCell0(" ");
 			field[coordinate - 1].setArrCell1(user);
 		} else {
-			io.getInstance().inputString("Cell is busy. Try to select coordinate again. Press any key to continue");
-			selectCoordinate(user, userNumber);
+			io.getInstance().showMessage("Cell is busy. Try to select coordinate again.\n ");
+			selectCoordinate(user, userName);
+		}
+	}
+
+	public static void createUsers() {
+
+		for (int i = 0; i < users.length; i++) {
+			users[i] = new User();
 		}
 	}
 
 	public static void playTwoPlayersMode() {
 		int count = 0;
+		createUsers();
 		initField();
+		printField();
 		while (count <= Math.pow(DIMENSION, 2)) {
-			printField();
-			selectCoordinate(USER_1, 1);
+			selectCoordinate((count % 2 == 0) ? USER_1 : USER_2,
+					(count % 2 == 0) ? users[0].getName() : users[1].getName());
 			printField();
 			count++;
-			if (isWin(USER_1)) {
-				io.getInstance().showMessage("\n USER 1 HAS WON!!!\n");
-				printField();
-				break;
-			}
-			selectCoordinate(USER_2, 2);
-			count++;
-			if (isWin(USER_2)) {
-				io.getInstance().showMessage("\n USER 2 HAS WON!!!\n");
+			if (isWin((count % 2 == 0) ? USER_1 : USER_2)) {
+				io.getInstance().showMessage(
+						"\n USER " + ((count % 2 == 0) ? users[0].getName() : users[1].getName()) + " HAS WON!!!\n");
 				printField();
 				break;
 			}
 		}
 	}
-	
+
 	public static boolean isWin(String user) {
 		boolean win = false;
 		if (field[0].equals(field[1]) && field[0].equals(field[2])
@@ -92,4 +108,3 @@ public class TicTacToe {
 		return win;
 	}
 }
-

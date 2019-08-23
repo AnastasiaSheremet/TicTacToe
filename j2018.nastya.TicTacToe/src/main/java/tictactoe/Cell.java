@@ -56,7 +56,5 @@ public class Cell {
 	public String toString() {
 		return Arrays.toString(arrCell);
 	}
-
-	
 	
 }

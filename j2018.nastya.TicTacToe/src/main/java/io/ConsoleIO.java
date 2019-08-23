@@ -33,8 +33,8 @@ public class ConsoleIO implements Input, Output {
 		try {
         	s = reader.readLine();
             return Integer.parseInt(s);
-        } catch (NumberFormatException | IOException e) {
-            return null;
+        } catch (NumberFormatException | IOException | NullPointerException e) {
+            return 0;
         }
 
 	}
