@@ -68,9 +68,17 @@ public class TicTacToe {
 	}
 
 	public static void createUsers() {
-
 		for (int i = 0; i < users.length; i++) {
 			users[i] = new User();
+			if (users[i].getName().equals("")) {
+				String name = io.getInstance().inputString("Please, enter any name.\n ");
+				users[i].setName(name);
+			}
+		}
+		if (users[0].getName().equals(users[1].getName())) {
+			String name = io.getInstance()
+					.inputString("This name has already existed. Please, choose another name.\n ");
+			users[1].setName(name);
 		}
 	}
 
@@ -91,7 +99,7 @@ public class TicTacToe {
 				break;
 			}
 		}
-	}
+	};
 
 	public static boolean isWin(String user) {
 		boolean win = false;
