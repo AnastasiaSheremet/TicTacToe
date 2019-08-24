@@ -5,8 +5,8 @@ import java.util.Arrays;
 import io.ConsoleIO;
 
 public class Cell {
-	private String[] arrCell = {" ", " ", " ", "|"};
-	
+	private String[] arrCell = { " ", " ", " ", "|" };
+
 	void printCell() {
 		for (int i = 0; i < arrCell.length; i++) {
 			ConsoleIO.getInstance().showMessage(arrCell[i]);
@@ -35,7 +35,6 @@ public class Cell {
 		return true;
 	}
 
-	
 	public String[] getArrCell() {
 		return arrCell;
 	}
@@ -43,11 +42,11 @@ public class Cell {
 	public void setArrCell(String[] arrCell) {
 		this.arrCell = arrCell;
 	}
-	
+
 	public void setArrCell0(String cell) {
 		this.arrCell[0] = cell;
 	}
-	
+
 	public void setArrCell1(String cell) {
 		this.arrCell[1] = cell;
 	}
@@ -56,5 +55,5 @@ public class Cell {
 	public String toString() {
 		return Arrays.toString(arrCell);
 	}
-	
+
 }
