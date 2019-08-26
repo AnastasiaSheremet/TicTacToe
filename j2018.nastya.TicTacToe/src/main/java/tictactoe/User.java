@@ -6,7 +6,11 @@ public class User {
 	public User() {
 		super();
 		this.name = io.ConsoleIO.getInstance().inputString("Input your name");
-
+	}
+	
+	public User(String name) {
+		super();
+		this.name = name;
 	}
 
 	public String getName() {
