@@ -7,7 +7,7 @@ public class User {
 		super();
 		this.name = io.ConsoleIO.getInstance().inputString("Input your name");
 	}
-	
+
 	public User(String name) {
 		super();
 		this.name = name;
@@ -45,5 +45,4 @@ public class User {
 			return false;
 		return true;
 	}
-
 }

@@ -41,7 +41,11 @@ public class TicTacToe {
 	private static void initField() {
 		for (int i = 0; i < field.length; i++) {
 			field[i] = new Cell();
+			if ((i + 1) % DIMENSION == 0) {
+				field[i] = new RightCell();
+			}
 			field[i].setArrCell0(Integer.valueOf(i + 1).toString());
+
 		}
 	}
 
@@ -51,7 +55,13 @@ public class TicTacToe {
 			if ((i + 1) % DIMENSION == 0) {
 				io.getInstance().showMessage("\n");
 				for (int j = 0; j < DIMENSION; j++) {
-					io.getInstance().showMessage("---+");
+					if (i < field.length - DIMENSION) {
+						if ((j + 1) % DIMENSION != 0) {
+							io.getInstance().showMessage("---+");
+						} else {
+							io.getInstance().showMessage("---");
+						}
+					}
 				}
 				io.getInstance().showMessage("\n");
 			}
@@ -148,7 +158,7 @@ public class TicTacToe {
 		createUsers();
 		initField();
 		printField();
-		while (count < Math.pow(DIMENSION, 2)) {
+		while (count < Math.pow(DIMENSION, 2) - 1) {
 			selectCoordinate(USER_1, users[0].getName());
 			printField();
 			if (isWin(USER_1)) {
@@ -159,10 +169,8 @@ public class TicTacToe {
 			count++;
 			io.getInstance().showMessage("\nComputer's turn\n");
 			if (count == 1) {
-				selectFirstStep();
+				selectFirstStep(USER_2);
 			} else {
-				checkWin(USER_1);
-				checkWin(USER_2);
 				if (checkWin(USER_1) != -1 && checkWin(USER_2) == -1) {
 					field[checkWin(USER_1)].setArrCell0(" ");
 					field[checkWin(USER_1)].setArrCell1(USER_2);
@@ -171,37 +179,29 @@ public class TicTacToe {
 					field[checkWin(USER_2)].setArrCell0(" ");
 					field[checkWin(USER_2)].setArrCell1(USER_2);
 				} else {
-					for (int i = 0; i < field.length; i++) {
-						if (!isBusy(i + 1)) {
-							field[i].setArrCell0(" ");
-							field[i].setArrCell1(USER_2);
-							break;
-						}
-					}
+					selectFirstStep(USER_2);
 				}
 			}
-			count++;
 			printField();
 			if (isWin(USER_2)) {
 				io.getInstance().showMessage("\nUSER " + users[1].getName() + " HAS WON!!!\n");
 				printField();
 				break;
 			}
+			count++;
 		}
 		if (!isWin(USER_1) && !isWin(USER_2)) {
 			io.getInstance().showMessage("\nDRAW!!!\n\n");
 		}
 	}
 
-	private static void selectFirstStep() {
-		int cell = (int) Math.random() * 9 + 1;
-		if (!isBusy(cell)) {
-			field[cell - 1].setArrCell0(" ");
-			field[cell - 1].setArrCell1(USER_2);
-		} else {
-			field[cell].setArrCell0(" ");
-			field[cell].setArrCell1(USER_2);
-		}
+	private static void selectFirstStep(String user) {
+		int cell;
+		do {
+			cell = (int) (Math.random() * 9 + 1);
+		} while (isBusy(cell));
+		field[cell - 1].setArrCell0(" ");
+		field[cell - 1].setArrCell1(user);
 	}
 
 	private static int checkWin(String user) {
@@ -271,10 +271,10 @@ public class TicTacToe {
 				|| (field[2].equals(field[6]) && field[2].getArrCell()[1].equals(user)) && (!isBusy(4 + 1))) {
 			cell = 4;
 		}
-		if (field[2].equals(field[4]) && (!isBusy(6 + 1))) {
+		if (field[2].equals(field[4]) && field[2].getArrCell()[1].equals(user) && (!isBusy(6 + 1))) {
 			cell = 6;
 		}
-		if (field[6].equals(field[4]) && (!isBusy(2 + 1))) {
+		if (field[6].equals(field[4]) && field[4].getArrCell()[1].equals(user) && (!isBusy(2 + 1))) {
 			cell = 2;
 		}
 		return cell;
