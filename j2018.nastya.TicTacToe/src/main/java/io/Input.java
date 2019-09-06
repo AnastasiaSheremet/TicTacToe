@@ -7,5 +7,4 @@ public interface Input {
 	String inputString(String message);
 
 	Integer inputInteger(String message);
-
 }

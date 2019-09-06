@@ -50,4 +50,8 @@ public class Cell {
 	public void setArrCell1(String cell) {
 		this.arrCell[1] = cell;
 	}
+
+	public void setArrCell3(String cell) {
+		this.arrCell[3] = cell;
+	}
 }

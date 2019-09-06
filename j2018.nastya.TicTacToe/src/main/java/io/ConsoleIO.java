@@ -46,5 +46,4 @@ public class ConsoleIO implements Input, Output {
 	public static ConsoleIO getInstance() {
 		return instance;
 	}
-
 }

@@ -51,4 +51,4 @@ public class RightCell extends Cell {
 		this.arrCell[1] = cell;
 	}
 
-}
+} 
